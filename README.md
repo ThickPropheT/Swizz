@@ -1,1 +1,1 @@
-# GC-Swiss-Wiz
+# Swizz
