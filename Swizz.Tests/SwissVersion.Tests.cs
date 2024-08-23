@@ -48,5 +48,7 @@ namespace Swizz.Tests
 
             Assert.That(version, Is.EqualTo("v1.1r1"));
         }
+
+        // TODO add tests for comparison operators
     }
 }
