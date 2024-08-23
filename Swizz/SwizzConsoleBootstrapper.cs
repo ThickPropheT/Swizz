@@ -1,22 +1,22 @@
 ﻿using System.CommandLine;
+using System.Data;
 
 namespace Swizz
 {
-    public class SwizzConsoleBootstrapper
+    public record SwizzConsoleContext(Func<Task<int>> Evaluate);
+
+    public static class SwizzConsoleBootstrapper
     {
-        public static SwizzConsoleController Bootstrap(string[] args)
+        public static SwizzConsoleContext Bootstrap(string[] args)
         {
             var targetOption = CreateTargetOption();
             var rootCommand = CreateRootCommand(targetOption);
 
-            var controller = new SwizzConsoleController(
-                async () => await rootCommand.InvokeAsync(args),
-                new SwizzServiceFactory());
+            rootCommand
+                .AddVersionCommand(targetOption)
+                .AddInstallCommand(targetOption);
 
-            AddVersionCommand(rootCommand, targetOption, controller);
-            AddInstallCommand(rootCommand, targetOption, controller);
-
-            return controller;
+            return new (async () => await rootCommand.InvokeAsync(args));
         }
 
         private static Option<DirectoryInfo> CreateTargetOption()
@@ -39,7 +39,7 @@ namespace Swizz
             return rootCommand;
         }
 
-        private static void AddVersionCommand(RootCommand rootCommand, Option<DirectoryInfo> targetOption, SwizzConsoleController controller)
+        private static RootCommand AddVersionCommand(this RootCommand rootCommand, Option<DirectoryInfo> targetOption)
         {
             var versionCommand = new Command(
                 name: "version",
@@ -47,10 +47,15 @@ namespace Swizz
 
             rootCommand.AddCommand(versionCommand);
 
-            versionCommand.SetHandler(controller.PrintVersionAt, targetOption);
+            versionCommand.SetHandler(
+                async t => await ResolveControllerAndCall(t, c => c.PrintVersion()),
+                targetOption
+            );
+
+            return rootCommand;
         }
 
-        private static void AddInstallCommand(RootCommand rootCommand, Option<DirectoryInfo> targetOption, SwizzConsoleController controller)
+        private static RootCommand AddInstallCommand(this RootCommand rootCommand, Option<DirectoryInfo> targetOption)
         {
             var repositoryUrlArgument = new Argument<string>("--repositoryUrl", "TODO - 1");
 
@@ -71,12 +76,30 @@ namespace Swizz
 
             rootCommand.AddCommand(installCommand);
 
-            installCommand.SetHandler(controller.InstallAt, targetOption, repositoryUrlArgument, forceOption);
+            installCommand.SetHandler(
+                async (t, url, force) => await ResolveControllerAndCall(t, c => c.InstallAt(url, force)),
+                targetOption, repositoryUrlArgument, forceOption
+            );
+
+            return rootCommand;
         }
 
         //var configOption = new Option<string?>(
         //    name: "--config",
         //    description: "The Swizz configuration file.");
         //configOption.AddAlias("-c");
+
+        private static async Task ResolveControllerAndCall(DirectoryInfo targetDirectory, Func<SwizzConsoleController, Task> endpoint)
+            => await endpoint(await ResolveController(targetDirectory));
+
+        private static async Task ResolveControllerAndCall(DirectoryInfo targetDirectory, Action<SwizzConsoleController> endpoint)
+            => endpoint(await ResolveController(targetDirectory));
+
+        private static async Task<SwizzConsoleController> ResolveController(DirectoryInfo targetDirectory)
+        {
+            var metaData = await InstallationSchema.ReadMetadataFrom(targetDirectory);
+            var service = new SwizzService(metaData, new Git(targetDirectory));
+            return new SwizzConsoleController(service);
+        }
     }
 }

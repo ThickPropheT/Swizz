@@ -2,27 +2,25 @@
 {
     public class SwizzService
     {
-        private readonly DirectoryInfo _targetDirectory;
+        private readonly InstallationMetadata _installationMetadata;
         private readonly IInstallerSchemaRepository _installerSchemaRepository;
 
-        public SwizzService(DirectoryInfo targetDirectory, IInstallerSchemaRepository installerSchemaRepository)
+        public SwizzService(InstallationMetadata installationMetadata, IInstallerSchemaRepository installerSchemaRepository)
         {
-            _targetDirectory = targetDirectory;
+            _installationMetadata = installationMetadata;
             _installerSchemaRepository = installerSchemaRepository;
         }
 
-        public async Task<SwissVersion> GetVersion()
-            => (await GetInstallationMetadata()).Version;
+        public SwissVersion GetVersion()
+            => _installationMetadata.Version;
 
         public async Task Install(string repositoryUrl, bool force)
         {
             // 0. Pull latest from github
             var schema = await _installerSchemaRepository.Pull(repositoryUrl);
 
-            var metadata = await GetInstallationMetadata();
-
             // 1. Check if update is needed
-            if (!force && schema.Version <= metadata.Version)
+            if (!force && schema.Version <= _installationMetadata.Version)
                 return;
 
             /*
@@ -33,8 +31,5 @@
              * 
              */
         }
-
-        private async Task<InstallationMetadata> GetInstallationMetadata()
-            => await InstallationSchema.ReadMetadataFrom(_targetDirectory);
     }
 }

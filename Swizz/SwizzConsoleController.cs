@@ -1,27 +1,27 @@
 ﻿namespace Swizz
 {
+    // TODO should this be converted to media agnostic controller?
     public class SwizzConsoleController
     {
-        private readonly Func<Task<int>> _evaluate;
-        private readonly SwizzServiceFactory _serviceFactory;
+        private readonly SwizzService _service;
 
-        public SwizzConsoleController(Func<Task<int>> evaluate, SwizzServiceFactory serviceFactory)
+        public SwizzConsoleController(SwizzService service)
         {
-            _evaluate = evaluate;
-            _serviceFactory = serviceFactory;
+            _service = service;
         }
 
-        public async Task<int> Evaluate() => await _evaluate();
-
-        public async Task PrintVersionAt(DirectoryInfo targetDirectory)
+        public void PrintVersion()
         {
-            var version = await _serviceFactory.Create(targetDirectory).GetVersion();
+            var version = _service.GetVersion();
+            // TODO
+            //  can/should System.CommandLine be used to print this?
+            //  should the endpoint be converted to return version rather than print it?
             Console.WriteLine(version);
         }
 
-        public async Task InstallAt(DirectoryInfo targetDirectory, string repositoryUrl, bool force)
+        public async Task InstallAt(string repositoryUrl, bool force)
         {
-            await _serviceFactory.Create(targetDirectory).Install(repositoryUrl, force);
+            await _service.Install(repositoryUrl, force);
             // TODO get feedback and print result
         }
     }
