@@ -2,7 +2,7 @@
 using System.Linq.Expressions;
 using System.Reflection;
 
-namespace Reg.Roup
+namespace Reg.Roup.Schema
 {
     public class SettableSchemaMember : SchemaMember
     {

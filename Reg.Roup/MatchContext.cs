@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Reg.Roup.Schema;
+using Reg.Roup.Utility;
+using System;
 using System.Text.RegularExpressions;
 
 namespace Reg.Roup
@@ -26,7 +28,7 @@ namespace Reg.Roup
                 );
             }
 
-            return member.FindValueIn(match.Groups);
+            return match.Groups.FindValueFor(member);
         }
     }
 }

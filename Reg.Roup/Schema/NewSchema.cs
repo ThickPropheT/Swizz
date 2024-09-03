@@ -1,10 +1,12 @@
-﻿using System;
+﻿using Reg.Roup.Conversions;
+using Reg.Roup.Regex;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 
-namespace Reg.Roup
+namespace Reg.Roup.Schema
 {
     public class NewSchema
     {
@@ -36,7 +38,7 @@ namespace Reg.Roup
             );
         }
 
-        protected static SchemaMember[] ExtractParameters(ConstructorInfo constructor, IList<Expression> arguments) 
+        protected static SchemaMember[] ExtractParameters(ConstructorInfo constructor, IList<Expression> arguments)
             => constructor
                 .GetParameters()
                 .Select((p, i) =>

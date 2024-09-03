@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 
-namespace Reg.Roup
+namespace Reg.Roup.Conversions
 {
     public partial class Conversion
     {
@@ -24,6 +24,6 @@ namespace Reg.Roup
             => new(value, v => v);
 
         public object? Apply()
-            => _convert(_value.GetValue());
+            => _convert(_value.Get());
     }
 }

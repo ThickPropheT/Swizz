@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Reg.Roup
+namespace Reg.Roup.Conversions
 {
     public interface IParse
     {

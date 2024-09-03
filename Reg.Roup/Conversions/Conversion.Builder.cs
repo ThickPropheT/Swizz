@@ -1,4 +1,6 @@
-﻿namespace Reg.Roup
+﻿using Reg.Roup.Schema;
+
+namespace Reg.Roup.Conversions
 {
     public partial class Conversion
     {

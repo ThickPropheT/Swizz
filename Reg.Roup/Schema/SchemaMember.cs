@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Linq.Expressions;
 using System.Text.RegularExpressions;
+using Reg.Roup.Utility;
 
-namespace Reg.Roup
+namespace Reg.Roup.Schema
 {
     public class SchemaMember
     {

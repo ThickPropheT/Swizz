@@ -1,10 +1,12 @@
-﻿using System;
+﻿using Reg.Roup.Conversions;
+using Reg.Roup.Regex;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 
-namespace Reg.Roup
+namespace Reg.Roup.Schema
 {
     public class MemberInitSchema : NewSchema
     {

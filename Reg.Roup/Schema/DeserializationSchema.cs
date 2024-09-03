@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq.Expressions;
 
-namespace Reg.Roup
+namespace Reg.Roup.Schema
 {
     public class DeserializationSchema
     {
