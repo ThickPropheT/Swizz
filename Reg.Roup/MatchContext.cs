@@ -1,4 +1,5 @@
-﻿using Reg.Roup.Schema;
+﻿using Reg.Roup.Conversions;
+using Reg.Roup.Schema;
 using Reg.Roup.Utility;
 using System;
 using System.Text.RegularExpressions;

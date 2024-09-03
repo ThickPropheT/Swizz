@@ -1,11 +1,12 @@
-﻿using System;
+﻿using Reg.Roup.Conversions;
+using System;
 using System.Linq.Expressions;
 
 namespace Reg.Roup.Schema
 {
     public class DeserializationSchema
     {
-        public static NewSchema From(LambdaExpression schema)
+        public static NewSchema From<T>(Expression<Func<IParse, T>> schema)
         {
             if (schema.Body is MemberInitExpression memberInitExpression)
             {

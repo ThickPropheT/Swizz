@@ -1,7 +1,7 @@
 ﻿using System.Text.RegularExpressions;
 using Reg.Roup.Schema;
 
-namespace Reg.Roup
+namespace Reg.Roup.Conversions
 {
     public class GroupValue
     {

@@ -1,29 +1,33 @@
-﻿using System;
-using System.ComponentModel;
+﻿using Reg.Roup.Schema;
 
 namespace Reg.Roup.Conversions
 {
-    public partial class Conversion
+    public class Conversion
     {
-        private readonly GroupValue _value;
-        private readonly Func<string?, object?> _convert;
+        public static MatchSelector Extract(SchemaMember member)
+            => new(member);
 
-        private Conversion(GroupValue value, Func<string?, object?> convert)
+        public class MatchSelector(SchemaMember member)
         {
-            _value = value;
-            _convert = convert;
+            public GroupValueConversion From(MatchContext match)
+            {
+                var converter = member.FindConverter();
+                var value = match.FindValue(member);
+
+                if (converter != null)
+                {
+                    return GroupValueConversion.Explicit(value, converter);
+                }
+                else if (member.Type != typeof(string))
+                {
+                    return GroupValueConversion.Implicit(value);
+                }
+                else
+                {
+                    return GroupValueConversion.None(value);
+                }
+            }
+
         }
-
-        public static Conversion Explicit(GroupValue value, Func<string?, object?> convert)
-            => new(value, convert);
-
-        public static Conversion Implicit(GroupValue value)
-            => new(value, v => TypeDescriptor.GetConverter(value.Member.Type).ConvertTo(v, value.Member.Type));
-
-        public static Conversion None(GroupValue value)
-            => new(value, v => v);
-
-        public object? Apply()
-            => _convert(_value.Get());
     }
 }

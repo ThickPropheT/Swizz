@@ -2,7 +2,6 @@
 using System.Linq.Expressions;
 using System.Text.RegularExpressions;
 using Reg.Roup.Conversions;
-using Reg.Roup.Regex;
 using Reg.Roup.Schema;
 
 namespace Reg.Roup

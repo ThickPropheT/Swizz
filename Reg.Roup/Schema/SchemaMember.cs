@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq.Expressions;
-using System.Text.RegularExpressions;
 using Reg.Roup.Utility;
 
 namespace Reg.Roup.Schema
@@ -52,25 +51,6 @@ namespace Reg.Roup.Schema
 
                 return parseDelegate.DynamicInvoke(value);
             };
-        }
-
-        public GroupValue FindValueIn(GroupCollection groups)
-        {
-            var candidate = groups[Name];
-
-            if (candidate != null
-                && candidate.Success)
-            {
-                return GroupValue.FromGroup(this, candidate);
-            }
-            if (!IsOptional)
-            {
-                throw new FormatException(
-                    $"Regex could not match group '{Name}' for input string, but group is not optional (nullable)."
-                );
-            }
-
-            return GroupValue.FromOptional(this);
         }
     }
 }
