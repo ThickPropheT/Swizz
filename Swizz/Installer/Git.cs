@@ -1,6 +1,7 @@
 ﻿using System.Management.Automation;
+using Swizz.Installation;
 
-namespace Swizz
+namespace Swizz.Installer
 {
     public class Git : IInstallerSchemaRepository
     {

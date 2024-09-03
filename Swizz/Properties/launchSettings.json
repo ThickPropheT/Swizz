@@ -2,8 +2,8 @@
   "profiles": {
     "Swizz": {
       "commandName": "Project",
-      //"commandLineArgs": "install https://github.com/ThickPropheT/GC-Swiss-Config.git -t ./TEST/"
-      "commandLineArgs": "install -h"
+      "commandLineArgs": "install -t ../../../../TEST/ -f"
+      //"commandLineArgs": "install -h"
     }
   }
 }

@@ -1,4 +1,4 @@
-﻿namespace Swizz
+﻿namespace Swizz.Installer
 {
     public interface IInstallerSchemaRepository
     {

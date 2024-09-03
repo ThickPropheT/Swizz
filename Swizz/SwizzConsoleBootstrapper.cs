@@ -1,5 +1,7 @@
 ﻿using System.CommandLine;
-using System.Data;
+using System.Net.Http.Headers;
+using Swizz.Release.Provider;
+using Swizz.Release.Provider.GitHub;
 
 namespace Swizz
 {
@@ -48,7 +50,7 @@ namespace Swizz
             rootCommand.AddCommand(versionCommand);
 
             versionCommand.SetHandler(
-                async t => await ResolveControllerAndCall(t, c => c.PrintVersion()),
+                async dir => await ResolveControllerAndCall(dir, c => c.PrintVersion(dir)),
                 targetOption
             );
 
@@ -70,15 +72,15 @@ namespace Swizz
             versionOption.AddAlias("-v");
 
             var installCommand = new Command("install", "TODO - 4");
-            installCommand.AddArgument(repositoryUrlArgument);
+            //installCommand.AddArgument(repositoryUrlArgument);
             installCommand.AddOption(forceOption);
             installCommand.AddOption(versionOption);
 
             rootCommand.AddCommand(installCommand);
 
             installCommand.SetHandler(
-                async (t, url, force) => await ResolveControllerAndCall(t, c => c.InstallAt(url, force)),
-                targetOption, repositoryUrlArgument, forceOption
+                async (dir, force) => await ResolveControllerAndCall(dir, c => c.InstallAt(dir, force)),
+                targetOption, forceOption
             );
 
             return rootCommand;
@@ -90,15 +92,29 @@ namespace Swizz
         //configOption.AddAlias("-c");
 
         private static async Task ResolveControllerAndCall(DirectoryInfo targetDirectory, Func<SwizzConsoleController, Task> endpoint)
-            => await endpoint(await ResolveController(targetDirectory));
+            => await endpoint(ResolveController(targetDirectory));
 
-        private static async Task ResolveControllerAndCall(DirectoryInfo targetDirectory, Action<SwizzConsoleController> endpoint)
-            => endpoint(await ResolveController(targetDirectory));
+        private static void ResolveControllerAndCall(DirectoryInfo targetDirectory, Action<SwizzConsoleController> endpoint)
+            => endpoint(ResolveController(targetDirectory));
 
-        private static async Task<SwizzConsoleController> ResolveController(DirectoryInfo targetDirectory)
+        private static SwizzConsoleController ResolveController(DirectoryInfo targetDirectory)
         {
-            var metaData = await InstallationSchema.ReadMetadataFrom(targetDirectory);
-            var service = new SwizzService(metaData, new Git(targetDirectory));
+            // TODO
+            //  consider using HttpClientFactory instead of manually creating this.
+            //  to do that, you'd need to:
+            //  https://stackoverflow.com/questions/52622586/can-i-use-httpclientfactory-in-a-net-core-app-which-is-not-asp-net-core
+            var client = new HttpClient();
+            //{
+            //    BaseAddress = new Uri("https://api.github.com/")
+            //};
+
+            //client.DefaultRequestHeaders.Accept.Clear();
+            //client.DefaultRequestHeaders.Accept.Add(
+            //    new MediaTypeWithQualityHeaderValue("application/json"));
+
+            //var gitHubApi = new GitHubReleaseApi(client);
+            var gitHubScraper = new GitHubReleasePageScraper(client, targetDirectory /* TODO should probably find a place in AppData instead */);
+            var service = new SwizzService(gitHubScraper);
             return new SwizzConsoleController(service);
         }
     }

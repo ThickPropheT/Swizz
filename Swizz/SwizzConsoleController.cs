@@ -10,18 +10,18 @@
             _service = service;
         }
 
-        public void PrintVersion()
+        public async Task PrintVersion(DirectoryInfo targetDirectory)
         {
-            var version = _service.GetVersion();
+            var version = await _service.GetVersion(targetDirectory);
             // TODO
             //  can/should System.CommandLine be used to print this?
             //  should the endpoint be converted to return version rather than print it?
             Console.WriteLine(version);
         }
 
-        public async Task InstallAt(string repositoryUrl, bool force)
+        public async Task InstallAt(DirectoryInfo targetDirectory, bool force)
         {
-            await _service.Install(repositoryUrl, force);
+            await _service.Install(targetDirectory, force);
             // TODO get feedback and print result
         }
     }

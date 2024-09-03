@@ -2,6 +2,10 @@
 {
     public struct SwissVersion
     {
+        private readonly bool _isNotEmpty;
+
+        public bool IsEmpty => !_isNotEmpty;
+
         public ulong Major { get; }
         public ulong Minor { get; }
         public ulong Revision { get; }
@@ -11,6 +15,7 @@
             Major = major;
             Minor = minor;
             Revision = revision;
+            _isNotEmpty = true;
         }
 
         public static SwissVersion Parse(string version)

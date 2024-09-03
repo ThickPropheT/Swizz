@@ -6,6 +6,12 @@ namespace Swizz.Tests
     [TestFixture]
     public class SwissVersionTests
     {
+        [Test]
+        public void Should_indicate_is_empty_when_constructed_with_default_constructor()
+        {
+            Assert.That(new SwissVersion().IsEmpty, Is.True);
+        }
+
         [TestCase(typeof(FormatException), "vr")]
         [TestCase(typeof(FormatException), "vNNNrNNN")]
         [TestCase(typeof(FormatException), "v###r###")]
@@ -26,9 +32,12 @@ namespace Swizz.Tests
         public void Should_fail_to_parse_invalid_version_string(string versionString)
         {
             var didSucceed = SwissVersion.TryParse(versionString, out var result);
-        
-            Assert.That(didSucceed, Is.False);
-            Assert.That(result, Is.EqualTo(default(SwissVersion)));
+
+            Assert.Multiple(() =>
+            {
+                Assert.That(didSucceed, Is.False);
+                Assert.That(result, Is.EqualTo(default(SwissVersion)));
+            });
         }
 
         [Test]
@@ -36,9 +45,12 @@ namespace Swizz.Tests
         {
             var version = SwissVersion.Parse("v1.1r1");
 
-            Assert.That(version.Major, Is.EqualTo(1));
-            Assert.That(version.Minor, Is.EqualTo(1));
-            Assert.That(version.Revision, Is.EqualTo(1));
+            Assert.Multiple(() =>
+            {
+                Assert.That(version.Major, Is.EqualTo(1));
+                Assert.That(version.Minor, Is.EqualTo(1));
+                Assert.That(version.Revision, Is.EqualTo(1));
+            });
         }
 
         [Test]

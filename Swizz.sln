@@ -5,7 +5,9 @@ VisualStudioVersion = 17.4.33403.182
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Swizz", "Swizz\Swizz.csproj", "{72005D05-744F-4598-82DD-50A8231081B6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Swizz.Tests", "Swizz.Tests\Swizz.Tests.csproj", "{DB8A0030-3646-443C-9EFD-4DBC576632DA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Swizz.Tests", "Swizz.Tests\Swizz.Tests.csproj", "{DB8A0030-3646-443C-9EFD-4DBC576632DA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Reg.Roup", "Reg.Roup\Reg.Roup.csproj", "{2921BF12-CCB0-4249-9475-F0B33AC9CB55}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{DB8A0030-3646-443C-9EFD-4DBC576632DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DB8A0030-3646-443C-9EFD-4DBC576632DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DB8A0030-3646-443C-9EFD-4DBC576632DA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2921BF12-CCB0-4249-9475-F0B33AC9CB55}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2921BF12-CCB0-4249-9475-F0B33AC9CB55}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2921BF12-CCB0-4249-9475-F0B33AC9CB55}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2921BF12-CCB0-4249-9475-F0B33AC9CB55}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
