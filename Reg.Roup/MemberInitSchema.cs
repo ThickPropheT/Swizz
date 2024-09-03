@@ -25,6 +25,7 @@ namespace Reg.Roup
                 constructor
                     // TODO hope this works
                     ?? newExpression.Type.GetConstructor(Type.EmptyTypes)
+                    // TODO
                     ?? throw new Exception("RUH ROH"),
                 constructor != null
                     ? ExtractParameters(constructor, newExpression.Arguments)

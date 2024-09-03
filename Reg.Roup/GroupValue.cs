@@ -1,5 +1,4 @@
-﻿using System;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 
 namespace Reg.Roup
 {
@@ -16,10 +15,10 @@ namespace Reg.Roup
         }
 
         public static GroupValue FromGroup(SchemaMember member, Group group)
-            => new GroupValue(member, group);
+            => new(member, group);
 
         public static GroupValue FromOptional(SchemaMember member)
-            => new GroupValue(member, null);
+            => new(member, null);
 
         public string? GetValue() => _group?.Value;
     }

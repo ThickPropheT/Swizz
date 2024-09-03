@@ -3,20 +3,11 @@ using System.Text.RegularExpressions;
 
 namespace Reg.Roup
 {
-    public class MatchContext
+    public class MatchContext(Regex? regex, Match match)
     {
-        private readonly Regex? _regex;
-        private readonly Match _match;
-
-        public MatchContext(Regex? regex, Match match)
-        {
-            _regex = regex;
-            _match = match;
-        }
-
         public void Validate()
         {
-            if (!_match.Success)
+            if (!match.Success)
             {
                 throw new FormatException(
                     "Regex could not match input string."
@@ -28,14 +19,14 @@ namespace Reg.Roup
         {
             var groupName = member.Name;
 
-            if (_regex != null && _regex.GroupNumberFromName(groupName) == -1)
+            if (regex != null && regex.GroupNumberFromName(groupName) == -1)
             {
                 throw new FormatException(
                     $"Regex does not contain a group definition named '{groupName}'."
                 );
             }
 
-            return member.FindValueIn(_match.Groups);
+            return member.FindValueIn(match.Groups);
         }
     }
 }

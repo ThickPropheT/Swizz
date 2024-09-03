@@ -2,7 +2,7 @@
 
 namespace Reg.Roup
 {
-    public interface Parse
+    public interface IParse
     {
         public T With<T>(Func<string, T> parse) => default!;
     }

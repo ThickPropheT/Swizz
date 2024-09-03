@@ -41,7 +41,7 @@ namespace Reg.Roup
 
         public Func<string?, object?>? FindConverter()
         {
-            if (!(_expression is MethodCallExpression methodCall))
+            if (_expression is not MethodCallExpression methodCall)
                 return null;
 
             return value =>

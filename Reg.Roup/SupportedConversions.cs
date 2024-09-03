@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Linq.Expressions;
-using System.Reflection;
 
 namespace Reg.Roup
 {
     public class SupportedConversions
     {
-        public static readonly Type ParseType = typeof(Parse);
+        public static readonly Type ParseType = typeof(IParse);
 
         public static void Validate(MethodCallExpression expression)
         {
